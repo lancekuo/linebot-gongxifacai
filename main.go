@@ -18,14 +18,22 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/line/line-bot-sdk-go/v7/linebot"
 )
 
 var bot *linebot.Client
+var userList []string
 
 func main() {
 	var err error
+	userList = []string{
+		"Lucas",
+		"Ian",
+		"Mark",
+		"Ploking",
+	}
 	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
 	log.Println("Bot:", bot, " err:", err)
 	http.HandleFunc("/callback", callbackHandler)
@@ -45,6 +53,8 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+
+	log.Println("WeekNumber:%d, Who:%s", getWeekNumber(), userList[getWeekUserIdx()])
 
 	for _, event := range events {
 		if event.Type == linebot.EventTypeMessage {
@@ -76,4 +86,19 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
+}
+func getWeekNumber() int {
+	loc, err := time.LoadLocation("Asia/Taipei")
+	if err != nil {
+		panic(err)
+	}
+	tn := time.Now().In(loc)
+	fmt.Println(tn)
+	_, week := tn.ISOWeek()
+	return week
+}
+func getWeekUserIdx() int {
+	var userIdx int
+	userIdx = getWeekNumber() % len(userList)
+	return userIdx
 }
