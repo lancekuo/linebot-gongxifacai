@@ -73,7 +73,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logger.Info("WeekNumner", zap.Any("::", getWeekNumber()), zap.Any("Who", userList[getWeekUserIdx()]))
+	logger.Info("WeekNumner", zap.Any("::", getWeekNumber()))
 
 	for _, event := range events {
 		if event.Type == linebot.EventTypeMessage {
