@@ -21,12 +21,31 @@ import (
 	"time"
 
 	"github.com/line/line-bot-sdk-go/v7/linebot"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 var bot *linebot.Client
 var userList []string
+var logger zap.Logger
 
 func main() {
+
+	encoderCfg := zap.NewProductionEncoderConfig()
+	atom := zap.NewAtomicLevel()
+	logger := zap.New(zapcore.NewCore(
+		zapcore.NewJSONEncoder(encoderCfg),
+		zapcore.Lock(os.Stdout),
+		atom,
+	))
+	defer func() {
+		_ = logger.Sync() // flushes buffer, if any
+	}()
+
+	atom.SetLevel(zap.InfoLevel)
+
+	logger.Debug("Enable leader election", zap.Bool("enableLeaderElection", true))
+
 	var err error
 	userList = []string{
 		"Lucas",
@@ -54,7 +73,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println("WeekNumber:%d, Who:%s", getWeekNumber(), userList[getWeekUserIdx()])
+	logger.Info("WeekNumner", zap.Any("::", getWeekNumber()), zap.Any("Who", userList[getWeekUserIdx()]))
 
 	for _, event := range events {
 		if event.Type == linebot.EventTypeMessage {
