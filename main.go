@@ -73,8 +73,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logger.Info("ParseRequest", zap.Any("events", events))
-	logger.Info("Gongxifacai", zap.Any("WeekNumber", getWeekNumber()), zap.Any("Who", userList[getWeekUserIdx()]))
+	zap.L().Info("ParseRequest", zap.Any("events", events))
+	// logger.Info("ParseRequest", zap.Any("events", events))
+	// logger.Info("Gongxifacai", zap.Any("WeekNumber", getWeekNumber()), zap.Any("Who", userList[getWeekUserIdx()]))
 
 	for _, event := range events {
 		if event.Type == linebot.EventTypeMessage {
