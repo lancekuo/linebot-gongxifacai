@@ -44,7 +44,7 @@ func main() {
 
 	atom.SetLevel(zap.InfoLevel)
 
-	logger.Debug("Enable leader election", zap.Bool("enableLeaderElection", true))
+	logger.Info("Enable leader election", zap.Bool("enableLeaderElection", true))
 
 	var err error
 	userList = []string{
