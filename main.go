@@ -27,7 +27,7 @@ import (
 
 var bot *linebot.Client
 var userList []string
-var logger zap.Logger
+var logger *zap.Logger
 
 func main() {
 
@@ -72,6 +72,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+
+	logger.Info("ParseRequest", zap.Any("events", events))
+	logger.Info("Gongxifacai", zap.Any("WeekNumber", getWeekNumber()), zap.Any("Who", userList[getWeekUserIdx()]))
 
 	for _, event := range events {
 		if event.Type == linebot.EventTypeMessage {
