@@ -38,12 +38,12 @@ func main() {
 		zapcore.Lock(os.Stdout),
 		atom,
 	))
-	defer func() {
-		_ = logger.Sync() // flushes buffer, if any
-	}()
 
 	atom.SetLevel(zap.InfoLevel)
+	undo := zap.ReplaceGlobals(logger)
+	defer undo()
 
+	zap.L().Info("replaced zap's global loggers")
 	logger.Info("Enable leader election", zap.Bool("enableLeaderElection", true))
 
 	var err error
