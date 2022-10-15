@@ -49,10 +49,10 @@ func main() {
 
 	var err error
 	userList = []string{
-		"Lucas",
-		"Ian",
 		"Mark",
+		"Lucas",
 		"Ploking",
+		"Ian",
 	}
 	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
 	log.Println("Bot:", bot, " err:", err)
