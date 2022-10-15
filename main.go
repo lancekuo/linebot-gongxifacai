@@ -113,7 +113,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func processTextMessage(text string) string {
-	if strings.Index(text, "恭喜發財") != -1 {
+	if strings.Index(text, "恭喜發財") == 0 {
 
 		return fmt.Sprintf("這週是第%d週，應該是%s要買喔。%s上週的對獎了沒！？", getWeekNumber(), userList[getWeekUserIdx()], userList[getWeekUserIdx()-1])
 	} else {
