@@ -133,5 +133,8 @@ func getWeekNumber() int {
 func getWeekUserIdx() int {
 	var userIdx int
 	userIdx = getWeekNumber() % len(userList)
+	if userIdx == 0 {
+		userIdx = 1
+	}
 	return userIdx
 }
